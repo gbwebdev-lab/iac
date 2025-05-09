@@ -1,0 +1,19 @@
+infra:
+  hosts:
+    nuc:
+
+k8s-masters:
+  hosts:
+    k8s-m0[1:3]:
+k8s-workers:
+  hosts:
+    k8s-w[1:3]:
+
+k8s:
+  children:
+    k8s-masters:
+    k8s-workers:
+
+lab:
+  children:
+    all:

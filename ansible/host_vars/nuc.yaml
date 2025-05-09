@@ -1,0 +1,9 @@
+pxe_mac_address: "B8:AE:ED:7E:77:54"
+main_nvme_disk_model: "Samsung SSD 980 250GB"
+main_nvme_disk_serial: "S64BNF0T310539F"
+main_nvme_disk_size: 232
+
+main_nvme_disk_root_partition_size: 40
+main_nvme_disk_log_partition_size: 8
+main_nvme_disk_lvm_partition_size: 182
+main_nvme_disk_lvm_partition_detail: []
