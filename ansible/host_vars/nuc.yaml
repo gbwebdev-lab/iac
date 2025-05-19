@@ -1,9 +1,21 @@
-pxe_mac_address: "B8:AE:ED:7E:77:54"
-main_nvme_disk_model: "Samsung SSD 980 250GB"
-main_nvme_disk_serial: "S64BNF0T310539F"
-main_nvme_disk_size: 232
+hw_system_vendor: "INTEL"
+hw_system_product: "NUC6i3SYB"
+hw_system_product_number: "NUC6i3SYB"
 
-main_nvme_disk_root_partition_size: 40
-main_nvme_disk_log_partition_size: 8
-main_nvme_disk_lvm_partition_size: 182
-main_nvme_disk_lvm_partition_detail: []
+hw_cpu_cores: 2
+hw_cpu_threads: 4
+hw_cpu_base_freq: 2.3
+hw_cpu_max_freq: 2.3
+hw_memory_size: 16G
+hw_system_serial_number: "TBD"
+hw_storage_main_nvme_disk_model: "Samsung SSD 980 250GB"
+hw_network_main_interface_mac_address: "B8:AE:ED:7E:77:54"
+hw_network_main_interface_name: "eno1"
+hw_storage_main_nvme_disk_serial: "S64BNF0T310539F"
+
+hw_storage_main_nvme_disk_size: 232
+
+hw_storage_main_nvme_disk_gpt_efi_partition_size: 1
+hw_storage_main_nvme_disk_gpt_root_partition_size: 40
+hw_storage_main_nvme_disk_gpt_log_partition_size: 8
+hw_storage_main_nvme_disk_gpt_lvm_partition_size: 182

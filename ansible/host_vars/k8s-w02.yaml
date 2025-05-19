@@ -1,0 +1,6 @@
+hw_system_serial_number: "PC16N8A9"
+hw_network_main_interface_mac_address: "6C:4B:90:B8:F2:B7"
+hw_storage_main_nvme_disk_serial: "22382D811157"
+hw_storage_extra_disk_serial: "181440801166"
+hw_storage_extra_disks_serials:
+  sda: "181440801166"

@@ -1,0 +1,27 @@
+# Common variables for all machines
+
+domain: "lab"
+
+sw_os_name: "Ubuntu"
+sw_os_version: "24.04"
+sw_os_codename: "noble"
+
+
+hw_cpu_architecture: "amd64/generic"
+hw_network_main_interface_name: "enp2s0f0"
+hw_network_main_interface_other_interfaces: []
+hw_storage_main_nvme_disk_device_name: "nvme0n1"  # Default; it will be overwritten in host_vars if necessary
+hw_storage_main_nvme_disk_size: 232
+hw_storage_main_nvme_disk_lvm_partitions: []
+hw_storage_extra_disks: []
+
+sw_packages: []
+  # packages:
+  #   - name: "openssh-server"
+  #     version: "1:8.9p1-3ubuntu0.7"
+  #   - name: "lvm2"
+  #     version: "2.03.11-2ubuntu2.6"
+  #   - name: "gdisk"
+  #     version: "1.0.9-1build1"
+  #   - name: "parted"
+  #     version: "3.5-1ubuntu1"

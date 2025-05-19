@@ -1,0 +1,9 @@
+hw_system_product: "ThinkCentre M710q"
+hw_system_product_number: "10MQS29000"
+
+hw_system_serial_number: "S4CU2106"
+hw_network_main_interface_mac_address: "6C:4B:90:14:FE:95"
+hw_storage_main_nvme_disk_serial: "223205803764"
+
+
+hw_network_main_interface_name: "enp0s31f6"

@@ -1,0 +1,31 @@
+
+hw_system_vendor: "LENOVO"
+hw_system_product: "ThinkCentre M715q"
+hw_system_product_number: "10VHS0KB00"
+
+hw_cpu_cores: 4
+hw_cpu_threads: 4
+hw_cpu_base_freq: 2.9
+hw_cpu_max_freq: 3.8
+hw_memory_size: 8G
+
+hw_storage_main_nvme_disk_model: "WD PC SN740 SDDQNQD-256G-1001"
+hw_storage_main_nvme_disk_size: 238
+
+hw_storage_main_nvme_disk_gpt_efi_partition_size: 1
+hw_storage_main_nvme_disk_gpt_root_partition_size: 34
+hw_storage_main_nvme_disk_gpt_log_partition_size: 8
+hw_storage_main_nvme_disk_gpt_lvm_partition_size: 194
+
+
+hw_storage_main_nvme_disk_lvm_partitions:
+  - name: "var_kubelet"
+    size: 50
+    mount_path: "/var/lib/kubelet"
+    filesystem: "ext4"
+  - name: "var_containerd"
+    size: 60
+    mount_path: "/var/lib/containerd"
+    filesystem: "ext4"
+
+hw_storage_extra_disks: []

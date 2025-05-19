@@ -1,0 +1,5 @@
+- name: Render terraform.tfvars
+  template:
+    src: terraform.tfvars.j2
+    dest: "{{ playbook_dir }}/output/terraform.tfvars"
+  delegate_to: localhost   # explicit, though connection is already local

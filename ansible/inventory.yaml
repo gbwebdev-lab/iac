@@ -1,3 +1,9 @@
+local:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_python_interpreter: /usr/bin/python3
+
 infra:
   hosts:
     nuc:
@@ -7,7 +13,7 @@ k8s-masters:
     k8s-m0[1:3]:
 k8s-workers:
   hosts:
-    k8s-w[1:3]:
+    k8s-w0[1:3]:
 
 k8s:
   children:
@@ -16,4 +22,5 @@ k8s:
 
 lab:
   children:
-    all:
+    k8s:
+    infra:

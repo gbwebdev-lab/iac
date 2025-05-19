@@ -1,0 +1,7 @@
+hw_system_serial_number: "PC16N8B7"
+hw_network_main_interface_mac_address: "6C:4B:90:B8:21:9C"
+hw_storage_main_nvme_disk_model: "SAMSUNG MZVL4256HBJD-00BL7"
+hw_storage_main_nvme_disk_serial: "S67WNF1W858774"
+hw_storage_extra_disk_serial: "181440801111"
+hw_storage_extra_disks_serials:
+  sda: "181440801111"

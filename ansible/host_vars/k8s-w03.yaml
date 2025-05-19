@@ -1,0 +1,8 @@
+hw_system_product_number: "10VGS05N00"
+hw_system_serial_number: "PC16C78M"
+hw_cpu_base_freq: 3.0
+hw_cpu_max_freq: 3.5
+hw_network_main_interface_mac_address: "6C:4B:90:B6:47:00"
+hw_storage_main_nvme_disk_serial: "22382D803009"
+hw_storage_extra_disks_serials:
+  sda: "181440801392"

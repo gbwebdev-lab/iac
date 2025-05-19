@@ -1,0 +1,6 @@
+- name: Prepare Bare-Mretal Provisioning
+  hosts: local
+  gather_facts: false
+  run_once: true
+  roles:
+    - bm-provisioning

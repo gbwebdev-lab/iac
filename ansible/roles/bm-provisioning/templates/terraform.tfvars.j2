@@ -1,269 +1,60 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
 machines = {
-{% for host in groups['all'] %}
+{% for host in groups['lab'] %}
   {{ host }} = {
     hostname                            = "{{ host }}"
-    architecture                        = "{{ hostvars[host].architecture }}"
+    architecture                        = "{{ hostvars[host].hw_cpu_architecture }}"
     domain                              = "{{ hostvars[host].domain }}"
-    distro_series                       = "{{ hostvars[host].distro_series }}"
-    main_nic_name                       = "{{ hostvars[host].main_nic_name }}"
-    pxe_mac_address                     = "{{ hostvars[host].pxe_mac_address }}"
+    distro_series                       = "{{ hostvars[host].sw_os_codename }}"
+    main_nic_name                       = "{{ hostvars[host].hw_network_main_interface_name }}"
+    pxe_mac_address                     = "{{ hostvars[host].hw_network_main_interface_mac_address }}"
 
     # Main NVMe disk (for system + empty LVM)
-    main_nvme_disk_model                = "Samsung SSD 980 250GB"
-    main_nvme_disk_serial               = "S64BNF0T310539F"
-    main_nvme_disk_device_name          = "nvme0n1" # (default)
-    main_nvme_disk_size                 = 232
-    main_nvme_disk_efi_partition_size   = 1
-    main_nvme_disk_root_partition_size  = 40
-    main_nvme_disk_log_partition_size   = 8
-    main_nvme_disk_lvm_partition_size   = 182
-    main_nvme_disk_lvm_partition_detail = []
-    extra_disks = []
-  },
-  k8s-m01 = {
-    hostname                            = "k8s-m01"
-    architecture                        = "amd64/generic"
-    domain                              = "lab"
-    distro_series                       = "noble"
-    pxe_mac_address                     = "6C:4B:90:B8:F2:FE"
-    main_nic_name                       = "enp2s0f0"
+    main_nvme_disk_model                = "{{ hostvars[host].hw_storage_main_nvme_disk_model }}"
+    main_nvme_disk_serial               = "{{ hostvars[host].hw_storage_main_nvme_disk_serial }}"
+    main_nvme_disk_device_name          = "{{ hostvars[host].hw_storage_main_nvme_disk_device_name }}"
+    main_nvme_disk_size                 = {{ hostvars[host].hw_storage_main_nvme_disk_size }}
+    main_nvme_disk_efi_partition_size   = {{ hostvars[host].hw_storage_main_nvme_disk_gpt_efi_partition_size }}
+    main_nvme_disk_root_partition_size  = {{ hostvars[host].hw_storage_main_nvme_disk_gpt_root_partition_size }}
+    main_nvme_disk_log_partition_size   = {{ hostvars[host].hw_storage_main_nvme_disk_gpt_log_partition_size }}
+    main_nvme_disk_lvm_partition_size   = {{ hostvars[host].hw_storage_main_nvme_disk_gpt_lvm_partition_size }}
 
-    # Main NVMe disk (for system + LVM for kubelet and containerd)
-    main_nvme_disk_model                = "WD PC SN740 SDDQNQD-256G-1001"
-    main_nvme_disk_serial               = "22382D803032"
-    main_nvme_disk_device_name          = "nvme0n1" # (default)
-    main_nvme_disk_size                 = 238
-    main_nvme_disk_efi_partition_size   = 1
-    main_nvme_disk_root_partition_size  = 34
-    main_nvme_disk_log_partition_size   = 8
-    main_nvme_disk_lvm_partition_size   = 194
     main_nvme_disk_lvm_partition_detail = [
+    {% for part in hostvars[host].hw_storage_main_nvme_disk_lvm_partitions %}
       {
-        name = "var_kubelet"
-        size = 50
-        mount_path = "/var/lib/kubelet"
-        filesystem = "ext4"
-      },
-      {
-        name = "var_containerd"
-        size = 60
-        mount_path = "/var/lib/containerd"
-        filesystem = "ext4"
-      },
+        name       = "{{ part.name }}"
+        size       = {{ part.size }}
+        mount_path = "{{ part.mount_path }}"
+        filesystem = "{{ part.filesystem }}"
+      }{% if not loop.last %},{% endif +%}
+    {% endfor %}
     ]
-    extra_disks = []
-  },
-  k8s-m02 = {
-    hostname                            = "k8s-m02"
-    architecture                        = "amd64/generic"
-    domain                              = "lab"
-    distro_series                       = "noble"
-    pxe_mac_address                     = "6C:4B:90:B8:21:B8"
-    main_nic_name                       = "enp2s0f0"
 
-    # Main NVMe disk (for system + LVM for kubelet and containerd)
-    main_nvme_disk_model                = "WD PC SN740 SDDQNQD-256G-1001"
-    main_nvme_disk_serial               = "22382D810787"
-    main_nvme_disk_device_name          = "nvme0n1" # (default)
-    main_nvme_disk_size                 = 238
-    main_nvme_disk_efi_partition_size   = 1
-    main_nvme_disk_root_partition_size  = 34
-    main_nvme_disk_log_partition_size   = 8
-    main_nvme_disk_lvm_partition_size   = 194
-    main_nvme_disk_lvm_partition_detail = [
-      {
-        name = "var_kubelet"
-        size = 50
-        mount_path = "/var/lib/kubelet"
-        filesystem = "ext4"
-      },
-      {
-        name = "var_containerd"
-        size = 60
-        mount_path = "/var/lib/containerd"
-        filesystem = "ext4"
-      },
-    ]
-    extra_disks = []
-  },
-  k8s-m03 = {
-    hostname                            = "k8s-m03"
-    architecture                        = "amd64/generic"
-    domain                              = "lab"
-    distro_series                       = "noble"
-    pxe_mac_address                     = "6C:4B:90:14:FE:95"
-    main_nic_name                       = "enp0s31f6"
-
-    # Main NVMe disk (for system + LVM for kubelet and containerd)
-    main_nvme_disk_model                = "WD PC SN740 SDDQNQD-256G-1001"
-    main_nvme_disk_serial               = "223205803764"
-    main_nvme_disk_device_name          = "nvme0n1" # (default)
-    main_nvme_disk_size                 = 238
-    main_nvme_disk_efi_partition_size   = 1
-    main_nvme_disk_root_partition_size  = 34
-    main_nvme_disk_log_partition_size   = 8
-    main_nvme_disk_lvm_partition_size   = 194
-    main_nvme_disk_lvm_partition_detail = [
-      {
-        name = "var_kubelet"
-        size = 50
-        mount_path = "/var/lib/kubelet"
-        filesystem = "ext4"
-      },
-      {
-        name = "var_containerd"
-        size = 60
-        mount_path = "/var/lib/containerd"
-        filesystem = "ext4"
-      },
-    ]
-    extra_disks = []
-  },
-  k8s-w01 = {
-    hostname                            = "k8s-w01"
-    architecture                        = "amd64/generic"
-    domain                              = "lab"
-    distro_series                       = "noble"
-    pxe_mac_address                     = "6C:4B:90:B8:21:9C"
-    main_nic_name                       = "enp2s0f0"
-
-    # Main NVMe disk (for system + LVM for kubelet and containerd)
-    main_nvme_disk_model                = "SAMSUNG MZVL4256HBJD-00BL7"
-    main_nvme_disk_serial               = "S67WNF1W858774"
-    main_nvme_disk_device_name          = "nvme0n1" # (default)
-    main_nvme_disk_size                 = 238
-    main_nvme_disk_efi_partition_size   = 1
-    main_nvme_disk_root_partition_size  = 34
-    main_nvme_disk_log_partition_size   = 8
-    main_nvme_disk_lvm_partition_size   = 194
-    main_nvme_disk_lvm_partition_detail = [
-      {
-        name = "var_kubelet"
-        size = 50
-        mount_path = "/var/lib/kubelet"
-        filesystem = "ext4"
-      },
-      {
-        name = "var_containerd"
-        size = 60
-        mount_path = "/var/lib/containerd"
-        filesystem = "ext4"
-      },
-    ]
     extra_disks = [
+    {% for disk in hostvars[host].hw_storage_extra_disks %}
       {
-        model        = "SanDisk SD8SB8U-"
-        serial       = "181440801111"
-        device_name  = "sda"
-        size         = 118
-        tags         = ["ssd", "data"]
+        model       = "{{ disk.model }}"
+        {#serial      = "{{ disk.serial }}"#}
+        serial      = "{{ hostvars[host].hw_storage_extra_disks_serials[disk.device_name] | default('') }}"
+        device_name = "{{ disk.device_name }}"
+        size        = {{ disk.size }}
+        tags        = [{% for t in disk.tags %}"{{ t }}"{% if not loop.last %}, {% endif %}{% endfor %}]
         lvm_partition_detail = [
+    {%   for p in disk.lvm_partition_detail %}
           {
-            name       = "ceph"
-            size       = 60
-            mount_path = ""
-            filesystem = ""
-          },
+            name       = "{{ p.name }}"
+            size       = {{ p.size }}
+            mount_path = "{{ p.mount_path }}"
+            filesystem = "{{ p.filesystem }}"
+          }{% if not loop.last %},{% endif +%}
+    {%   endfor %}
         ]
-      },
+      }{% if not loop.last %},{% endif +%}
+    {% endfor %}
     ]
-  },
-  k8s-w02 = {
-    hostname                            = "k8s-w02"
-    architecture                        = "amd64/generic"
-    domain                              = "lab"
-    distro_series                       = "noble"
-    pxe_mac_address                     = "6C:4B:90:B8:F2:B7"
-    main_nic_name                       = "enp2s0f0"
 
-    # Main NVMe disk (for system + LVM for kubelet and containerd)
-    main_nvme_disk_model                = "WD PC SN740 SDDQNQD-256G-1001"
-    main_nvme_disk_serial               = "22382D811157"
-    main_nvme_disk_device_name          = "nvme0n1" # (default)
-    main_nvme_disk_size                 = 238
-    main_nvme_disk_efi_partition_size   = 1
-    main_nvme_disk_root_partition_size  = 34
-    main_nvme_disk_log_partition_size   = 8
-    main_nvme_disk_lvm_partition_size   = 194
-    main_nvme_disk_lvm_partition_detail = [
-      {
-        name = "var_kubelet"
-        size = 50
-        mount_path = "/var/lib/kubelet"
-        filesystem = "ext4"
-      },
-      {
-        name = "var_containerd"
-        size = 60
-        mount_path = "/var/lib/containerd"
-        filesystem = "ext4"
-      },
-    ]
-    extra_disks = [
-      {
-        model        = "SanDisk SD8SB8U-"
-        serial       = "181440801166"
-        device_name  = "sda"
-        size         = 119
-        tags         = ["ssd", "data"]
-        lvm_partition_detail = [
-          {
-            name       = "ceph"
-            size       = 60
-            mount_path = ""
-            filesystem = ""
-          },
-        ]
-      },
-    ]
+    {# main_nvme_disk_lvm_partition_detail = {{ hostvars[host].hw_storage_main_nvme_disk_lvm_partitions | to_nice_json(indent=6) }}
+    extra_disks = {{ hostvars[host].hw_storage_extra_disks | to_nice_json(indent=6) }} #}
   },
-  k8s-w03 = {
-    hostname                            = "k8s-w03"
-    architecture                        = "amd64/generic"
-    domain                              = "lab"
-    distro_series                       = "noble"
-    pxe_mac_address                     = "6C:4B:90:B6:47:00"
-    main_nic_name                       = "enp2s0f0"
-
-    # Main NVMe disk (for system + LVM for kubelet and containerd)
-    main_nvme_disk_model                = "WD PC SN740 SDDQNQD-256G-1001"
-    main_nvme_disk_serial               = "22382D803009"
-    main_nvme_disk_device_name          = "nvme0n1" # (default)
-    main_nvme_disk_size                 = 238
-    main_nvme_disk_efi_partition_size   = 1
-    main_nvme_disk_root_partition_size  = 34
-    main_nvme_disk_log_partition_size   = 8
-    main_nvme_disk_lvm_partition_size   = 194
-    main_nvme_disk_lvm_partition_detail = [
-      {
-        name = "var_kubelet"
-        size = 50
-        mount_path = "/var/lib/kubelet"
-        filesystem = "ext4"
-      },
-      {
-        name = "var_containerd"
-        size = 60
-        mount_path = "/var/lib/containerd"
-        filesystem = "ext4"
-      },
-    ]
-    extra_disks = [
-      {
-        model        = "SanDisk SD8SB8U-"
-        serial       = "181440801392"
-        device_name  = "sda"
-        size         = 119
-        tags         = ["ssd", "data"]
-        lvm_partition_detail = [
-          {
-            name       = "ceph"
-            size       = 60
-            mount_path = ""
-            filesystem = ""
-          },
-        ]
-      },
-    ]
-  }
+{% endfor %}
 }
